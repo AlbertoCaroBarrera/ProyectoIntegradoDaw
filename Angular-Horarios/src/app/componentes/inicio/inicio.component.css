@@ -1,0 +1,74 @@
+.horas {
+    text-align: center;
+    background-color: var(--highlight-bg);
+    color: var(--highlight-text-color);
+    border-radius: var(--border-radius);
+    border: 0.5px solid white;
+    padding: 1rem;
+    font-size: 25px;
+}
+
+.dias {
+    text-align: center;
+    background-color: var(--blue-300);
+    color: var(--primary-color-text);
+    border-radius: var(--border-radius);
+    border: 0.5px solid white;
+    padding: 1.2rem;
+    font-size: 25px;
+}
+
+.horarios {
+    text-align: center;
+    background-color: var(--blue-100);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: 0.5px solid white;
+    font-size: 25px;
+}
+
+.horarios div {
+    margin-bottom: 4px;
+}
+
+.horarios .asignatura {
+    font-weight: bold;
+    color: var(--green-500);
+}
+
+.horarios .grupo {
+    font-style: italic;
+    color: var(--blue-500);
+}
+
+.horarios .aula {
+    color: var(--red-500);
+}
+
+.card {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.p-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .dias, .horas, .horarios {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .horarios .asignatura, .horarios .grupo, .horarios .aula {
+        font-size: 0.8rem;
+    }
+}

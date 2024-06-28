@@ -1,0 +1,24 @@
+<div class="container">
+  <p-card>
+    <ng-template pTemplate="header">
+      <span class="p-card-title">Perfil de Usuario</span>
+      <span class="p-card-subtitle">Información del usuario conectado</span>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <form (ngSubmit)="onSubmit()">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" pInputText [(ngModel)]="user.nombre" name="nombre" required>
+          </div>
+          <div class="p-field">
+            <label for="username">Email</label>
+            <input id="username" type="text" pInputText [(ngModel)]="user.username" name="username" required>
+          </div>
+        </div>
+        <button type="submit" pButton label="Guardar" icon="pi pi-save" class="p-mt-2"></button>
+      </form>
+    </ng-template>
+  </p-card>
+  <p-toast></p-toast>
+</div>

@@ -1,0 +1,18 @@
+<p-menubar [model]="items">
+    <ng-container *ngIf="userLoginOn; else notLoggedIn">
+      <button type="button" pButton class=" btext p-link flex align-items-center m-2 px-2 text-color hover:surface-200"
+          (click)="avatarMenu.toggle($event)">
+        <p-avatar icon="pi pi-user" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+        <span class="inline-flex flex-column" *ngIf="user">
+          <span class="font-bold">{{ user.nombre }}</span>
+          <span class="text-sm">{{ user.rol }}</span>
+        </span>
+      </button>
+      <p-tieredMenu #avatarMenu [model]="items2" [popup]="true"></p-tieredMenu>
+    </ng-container>
+    <ng-template #notLoggedIn>
+      <button type="button" pButton label="Iniciar Sesión" icon="pi pi-fw pi-sign-out" routerLink="login"></button>
+    </ng-template>
+  </p-menubar>
+  <p-toast></p-toast>
+  

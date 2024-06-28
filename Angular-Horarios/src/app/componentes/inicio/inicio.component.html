@@ -1,0 +1,60 @@
+@if(loading){
+    <app-spinner></app-spinner>
+} @else {
+    <div class="card">
+        <div class="table-wrapper">
+            <p-table [value]="horariosPorFranja" [responsiveLayout]="'scroll'">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Horarios</th>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Lunes</th>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Martes</th>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Miércoles</th>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Jueves</th>
+                        <th class="dias p-d-flex p-ai-center p-jc-center">Viernes</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-franja>
+                    <tr>
+                        <td class="horas p-d-flex p-ai-center p-jc-center">{{ franja.descripcion }}</td>
+                        <td class="horarios p-d-flex p-ai-center p-jc-center">
+                            <div *ngIf="franja.horarios.L.length > 0">
+                                <div class="asignatura">Asignatura: {{ franja.horarios.L[0].asignatura.descripcion }}</div>
+                                <div class="grupo">Grupo: {{ franja.horarios.L[0].grupo.descripcion }}</div>
+                                <div class="aula">Aula: {{ franja.horarios.L[0].aula ? franja.horarios.L[0].aula.descripcion : 'Sin Aula' }}</div>
+                            </div>
+                        </td>
+                        <td class="horarios p-d-flex p-ai-center p-jc-center">
+                            <div *ngIf="franja.horarios.M.length > 0">
+                                <div class="asignatura">Asignatura: {{ franja.horarios.M[0].asignatura.descripcion }}</div>
+                                <div class="grupo">Grupo: {{ franja.horarios.M[0].grupo.descripcion }}</div>
+                                <div class="aula">Aula: {{ franja.horarios.M[0].aula ? franja.horarios.M[0].aula.descripcion : 'Sin Aula' }}</div>
+                            </div>
+                        </td>
+                        <td class="horarios p-d-flex p-ai-center p-jc-center">
+                            <div *ngIf="franja.horarios.X.length > 0">
+                                <div class="asignatura">Asignatura: {{ franja.horarios.X[0].asignatura.descripcion }}</div>
+                                <div class="grupo">Grupo: {{ franja.horarios.X[0].grupo.descripcion }}</div>
+                                <div class="aula">Aula: {{ franja.horarios.X[0].aula ? franja.horarios.X[0].aula.descripcion : 'Sin Aula' }}</div>
+                            </div>
+                        </td>
+                        <td class="horarios p-d-flex p-ai-center p-jc-center">
+                            <div *ngIf="franja.horarios.J.length > 0">
+                                <div class="asignatura">Asignatura: {{ franja.horarios.J[0].asignatura.descripcion }}</div>
+                                <div class="grupo">Grupo: {{ franja.horarios.J[0].grupo.descripcion }}</div>
+                                <div class="aula">Aula: {{ franja.horarios.J[0].aula ? franja.horarios.J[0].aula.descripcion : 'Sin Aula' }}</div>
+                            </div>
+                        </td>
+                        <td class="horarios p-d-flex p-ai-center p-jc-center">
+                            <div *ngIf="franja.horarios.V.length > 0">
+                                <div class="asignatura">Asignatura: {{ franja.horarios.V[0].asignatura.descripcion }}</div>
+                                <div class="grupo">Grupo: {{ franja.horarios.V[0].grupo.descripcion }}</div>
+                                <div class="aula">Aula: {{ franja.horarios.V[0].aula ? franja.horarios.V[0].aula.descripcion : 'Sin Aula' }}</div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+}

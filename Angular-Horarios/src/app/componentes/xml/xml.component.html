@@ -1,0 +1,37 @@
+<p-messages></p-messages>
+
+<div class="main-container">
+  <div class="card p-4">
+    <h2 class="text-primary">Gestión de Datos XML</h2>
+    <h4 class="text-secondary">Antes de añadir un nuevo XML es recomendable borrar los datos actuales.</h4>
+    <h5 class="text-danger">Nota: Solo quedará el administrador.</h5>
+
+    <div class="my-3">
+      <p-button label="Resetear Base de Datos" severity="danger" icon="pi pi-exclamation-triangle" (click)="resetDatabase()"></p-button>
+    </div>
+
+    <h3 class="text-primary">Seleccione el archivo .xml con los datos de la Base de Datos</h3>
+    
+    <div class="my-3">
+      <p-fileUpload #fileInput 
+                    name="files" 
+                    (uploadHandler)="onUpload($event)" 
+                    [customUpload]="true" 
+                    accept=".xml"
+                    mode="advanced"
+                    chooseLabel="Elegir Archivo"
+                    uploadLabel="Subir"
+                    cancelLabel="Cancelar">
+      </p-fileUpload>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div *ngIf="progressVisible" class="my-3">
+
+      <h5 class="text-danger">Esperar a que salga el mensaje verde de XML uploaded successfully</h5>
+
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog></p-confirmDialog>

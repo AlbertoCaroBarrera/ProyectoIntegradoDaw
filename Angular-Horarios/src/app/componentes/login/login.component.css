@@ -1,0 +1,67 @@
+/* login.component.css */
+
+.min-h-screen {
+    min-height: 100vh;
+  }
+  
+  .bg-gray-100 {
+    background-color: #f7fafc;
+  }
+  
+  .bg-white {
+    background-color: #ffffff;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .field {
+    margin-bottom: 1rem;
+  }
+  
+  .field label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .field input {
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+  }
+  
+  .field small {
+    margin-top: 0.25rem;
+    color: #e53e3e;
+  }
+  
+  .text-gray-700 {
+    color: #4a5568;
+  }
+  
+  .text-cyan-700 {
+    color: #0891b2;
+  }
+  
+  .p-button-primary {
+    background-color: #4c51bf;
+    border: none;
+  }
+  
+  .p-button-primary:hover {
+    background-color: #434190;
+  }
+  
+  .p-error {
+    color: #e53e3e;
+  }
+  
+  .hover\:underline:hover {
+    text-decoration: underline;
+  }
+  

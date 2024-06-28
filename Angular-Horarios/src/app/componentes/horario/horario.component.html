@@ -1,0 +1,147 @@
+@if(loading){
+  <app-spinner></app-spinner>
+} @else {
+<div class="card centered-card">
+  <p-toast></p-toast>
+  <p-toolbar class="toolbar mb-4">
+      <ng-template pTemplate="left">
+          <p-button *ngIf="isAdmin" pRipple severity="success" label="Crear nuevo horario" icon="pi pi-plus" class="mr-2" (click)="openNew()"></p-button>
+          <p-button pRipple severity="info" label="Filtro avanzado" icon="pi pi-filter" class="mr-2" (click)="toggleAdvancedFilters()"></p-button>
+      </ng-template>
+  </p-toolbar>
+
+  <div class="table-wrapper">
+      <p-table #dt [value]="filteredHorarios" [rows]="10" [paginator]="true"
+          [globalFilterFields]="['profesor.nombre','dia', 'franja.descripcion','asignatura.descripcion', 'aula.descripcion','grupo.descripcion', 'periodo.descripcion']"
+          [(selection)]="selectedHorarios" [rowHover]="true" dataKey="id"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [showCurrentPageReport]="true" class="p-table-responsive">
+          <ng-template pTemplate="caption">
+              <div class="table-header">
+                  <h5 class="m-0">Horarios</h5>
+                  <span class="p-input-icon-left filter">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Filter">
+                  </span>
+              </div>
+              <p-panel header="Filtros avanzados" [toggleable]="true" [(collapsed)]="advancedFiltersCollapsed" [style]="{'margin-bottom':'20px'}">
+                  <div class="p-grid p-fluid m-2">
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="profesoresDisponibles" [(ngModel)]="selectedProfesor" (onChange)="filterByCriteria()" optionLabel="nombre" placeholder="Filtrar por profesor"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="diasDisponibles" [(ngModel)]="selectedDia" (onChange)="filterByCriteria()" placeholder="Filtrar por día"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="franjasDisponibles" [(ngModel)]="selectedFranja" (onChange)="filterByCriteria()" optionLabel="descripcion" placeholder="Filtrar por franja"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="asignaturasDisponibles" [(ngModel)]="selectedAsignatura" (onChange)="filterByCriteria()" optionLabel="descripcion" placeholder="Filtrar por asignatura"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="aulasDisponibles" [(ngModel)]="selectedAula" (onChange)="filterByCriteria()" optionLabel="descripcion" placeholder="Filtrar por aula"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-dropdown [options]="gruposDisponibles" [(ngModel)]="selectedGrupo" (onChange)="filterByCriteria()" optionLabel="descripcion" placeholder="Filtrar por grupo"></p-dropdown>
+                      </div>
+                      <div class="p-col-12 p-md-2">
+                          <p-button label="Limpiar filtros" icon="pi pi-filter-slash" (click)="clearFilters()"></p-button>
+                      </div>
+                  </div>
+              </p-panel>
+          </ng-template>
+
+          <ng-template pTemplate="header">
+              <tr>
+                  <th pSortableColumn="profesor.nombre">
+                      Profesor <p-sortIcon field="profesor.nombre"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="dia">
+                      Día <p-sortIcon field="dia"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="franja.descripcion">
+                      Franja <p-sortIcon field="franja.descripcion"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="asignatura.descripcion">
+                      Asignatura <p-sortIcon field="asignatura.descripcion"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="aula.descripcion">
+                      Aula <p-sortIcon field="aula.descripcion"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="grupo.descripcion">
+                      Grupo <p-sortIcon field="grupo.descripcion"></p-sortIcon>
+                  </th>
+                  <th>
+                      Periodo
+                  </th>
+                  <th></th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-horario>
+              <tr>
+                  <td>{{ horario.profesor.nombre }}</td>
+                  <td>{{ horario.dia }}</td>
+                  <td>{{ horario.franja.descripcion }}</td>
+                  <td>{{ horario.asignatura.descripcion }}</td>
+                  <td *ngIf="horario.aula; else noAula">{{ horario.aula.descripcion }}</td>
+                  <ng-template #noAula>
+                      <td>Sin Aula Asignada</td>
+                  </ng-template>
+                  <td>{{ horario.grupo.descripcion }}</td>
+                  <td>{{ horario.periodo.descripcion }}</td>
+                  <td>
+                      <p-button *ngIf="isAdmin" pRipple icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success" (click)="editHorario(horario)"></p-button>
+                      <p-button *ngIf="isAdmin" pRipple icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteHorario(horario)"></p-button>
+                  </td>
+              </tr>
+          </ng-template>
+      </p-table>
+  </div>
+
+  <p-dialog [(visible)]="horarioDialog" header="Horario Details" [modal]="true" class="p-fluid">
+      <ng-template pTemplate="content">
+          <div class="field">
+              <label for="profesor">Profesor</label>
+              <p-dropdown [options]="profesoresDisponibles" [(ngModel)]="horario.profesor" optionLabel="nombre" placeholder="Selecciona un profesor"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.profesor">Profesor es requerido.</small>
+          </div>
+          <div class="field">
+              <label for="dia">Día</label>
+              <input type="text" pInputText [(ngModel)]="horario.dia" required>
+              <small class="p-error" *ngIf="submitted && !horario.dia">Día es requerido.</small>
+          </div>
+          <div class="field">
+              <label for="franja">Franja</label>
+              <p-dropdown [options]="franjasDisponibles" [(ngModel)]="horario.franja" optionLabel="descripcion" placeholder="Selecciona una franja"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.franja">Franja es requerida.</small>
+          </div>
+          <div class="field">
+              <label for="asignatura">Asignatura</label>
+              <p-dropdown [options]="asignaturasDisponibles" [(ngModel)]="horario.asignatura" optionLabel="descripcion" placeholder="Selecciona una asignatura"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.asignatura">Asignatura es requerida.</small>
+          </div>
+          <div class="field">
+              <label for="aula">Aula</label>
+              <p-dropdown [options]="aulasDisponibles" [(ngModel)]="horario.aula" optionLabel="descripcion" placeholder="Selecciona una aula"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.aula">Aula es requerida.</small>
+          </div>
+          <div class="field">
+              <label for="grupo">Grupo</label>
+              <p-dropdown [options]="gruposDisponibles" [(ngModel)]="horario.grupo" optionLabel="descripcion" placeholder="Selecciona un grupo"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.grupo">Grupo es requerido.</small>
+          </div>
+          <div class="field">
+              <label for="periodo">Periodo</label>
+              <p-dropdown [options]="periodosDisponibles" [(ngModel)]="horario.periodo" optionLabel="descripcion" placeholder="Selecciona un periodo"></p-dropdown>
+              <small class="p-error" *ngIf="submitted && !horario.periodo">Periodo es requerido.</small>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="footer">
+          <p-button pRipple label="Cancelar" icon="pi pi-times" [text]="true" (click)="hideDialog()"></p-button>
+          <p-button pRipple label="Guardar" icon="pi pi-check" [text]="true" (click)="saveHorario()"></p-button>
+      </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog></p-confirmDialog>
+</div>
+}

@@ -1,0 +1,45 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .text-primary {
+    color: #007ad9;
+  }
+  
+  .text-secondary {
+    color: #606060;
+  }
+  
+  .text-danger {
+    color: #d9534f;
+  }
+  
+  .my-3 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .md\:w-20rem {
+    width: 20rem;
+  }
+  
+  .p-4 {
+    padding: 1.5rem;
+  }
+  

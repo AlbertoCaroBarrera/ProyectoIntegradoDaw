@@ -1,0 +1,76 @@
+
+<div class="flex-container">
+    <p-toast></p-toast>
+    <!-- Componente de calendario de PrimeNG -->
+    <div class="card custom-calendar">
+        <p-calendar class="custom-calendar" [(ngModel)]="fecha" [inline]="true" [showWeek]="true" (ngModelChange)="onFechaChange($event)" dateFormat="yy-mm-dd"></p-calendar>
+    </div>
+    <!-- Tabla de profesores de guardia -->
+    <div class="card table-wrapper">
+        <p-table [value]="profesoresGuardiaTable">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Profesores de Guardia</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-profesor>
+                <tr>
+                    <td>{{ profesor }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<!-- Botón para abrir el diálogo de crear nueva guardia -->
+<div class="botones card my-3">
+    <button type="button" pButton label="Crear Nueva Ausencia" icon="pi pi-plus" (click)="displayDialogCrear = true" class="p-button p-component p-button-primary"></button>
+    <button type="button" pButton label="Eliminar Ausencias" icon="pi pi-trash" (click)="navigateToEliminar()" class="p-button p-component p-button-danger mx-2"></button>
+    <button type="button" pButton label="Generar PDF" icon="pi pi-file-pdf" (click)="generatePdf()" class="p-button p-component p-button-secondary mx-2"></button>
+</div>
+
+<!-- Tabla de ausencias -->
+<div class="table-wrapper card">
+    <p-table [columns]="cols" [value]="filas">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    <ng-container *ngIf="col.field === 'aulas' || col.field === 'grupos' || col.field === 'asignaturas'; else defaultField">
+                        <ul>
+                            <li *ngFor="let item of rowData[col.field]">{{ item }}</li>
+                        </ul>
+                    </ng-container>
+                    <ng-template #defaultField>
+                        {{ rowData[col.field] }}
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- Diálogo para crear nueva ausencia -->
+<p-dialog header="Crear Nueva Ausencia" [(visible)]="displayDialogCrear" [modal]="true" [closable]="true">
+    <form (ngSubmit)="onCrearSubmit()">
+        <div class="p-fluid grid">
+            <div class="field col-12 md-6">
+                <label for="fecha">Fecha de Ausencia:</label>
+                <input type="date" id="fecha" name="fecha" [(ngModel)]="nuevaAusencia.fechaAusencia" required class="p-inputtext p-component">
+            </div>
+            <div class="field col-12">
+                <label for="comentario">Comentario:</label>
+                <input type="text" id="comentario" name="comentario" [(ngModel)]="nuevaAusencia.comentario" required class="p-inputtext p-component">
+            </div>
+            <div class="field col-12">
+                <button type="submit" class="p-button p-component p-button-primary">Añadir Ausencia</button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
